@@ -1,0 +1,25 @@
+.cardNotPage{
+    width: 80%;
+    padding: 40px;
+}
+.Changa{
+  
+  font-family:'Changa';
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+.para-text{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: large;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* .page-item.active .page-link{
+  background-color: rgba(235, 193, 8, 0.075);
+  border-color: rgba(235, 193, 8, 0.075);
+} */
+
+

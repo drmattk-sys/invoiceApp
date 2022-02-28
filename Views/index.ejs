@@ -1,0 +1,120 @@
+<%- include('includes/header'); %>
+
+
+
+
+
+
+  <div class="d-flex justify-content-center">
+    <div class="col-lg-10" id="table">
+      <% if(message.length> 0) { %>
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+          <%=message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+
+          <a href="/add/invoice" class="btn btn-sm btn-warning bg-gradient mb-2">Add Invoice</a>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Invoices</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>items(s)</th>
+                    <th>Total Amount </th>
+                    <th>Send</th>
+                    <th>Paid</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+
+                  <% if(invoices.length> 0){ invoices.forEach( data=>{%>
+                    <tr>
+                      <td>
+                        <%=data.CustomerName %>
+                      </td>
+                      <td>
+                        <%=data.ItemName.length %>
+                          Items
+                      </td>
+                      <td>
+                        <% var Total=0; %>
+                          <% for (var i=0; i < data.ItemName.length; i++ ) { %>
+
+                            <% Total=Total + (data.ItemPrice[i] * data.ItemQuantity[i]); %>
+
+                              <% } %>
+
+                                <span>£ <%=Total %> </span>
+
+                      </td>
+
+                      <td>
+                        <%=data.StatusSend %>
+                      </td>
+                      <td>
+                        <%=data.StatusPaid %>
+                      </td>
+                      <td>
+
+
+                        <a href="/delete/<%=data._id %>" class="btn btn-sm btn-danger"><span><i
+                              class="bi bi-x-octagon-fill"></i></span></a>
+                        <a href="/edit/<%=data._id %>" class="btn btn-sm btn-success"><span><i
+                              class="bi bi-pencil-square"></i></span></a>
+                        <a href="/print/<%=data._id %>" class="btn btn-sm btn-primary"><span><i
+                              class="bi bi-printer-fill"></i></span></a>
+                        <a href="/send/<%=data._id %>" class="btn btn-sm btn-warning"><span><i
+                              class="bi bi-send-fill"></i></span></a>
+
+                      </td>
+                    </tr>
+
+                    <%})} %>
+
+
+
+
+
+                </tbody>
+
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+
+    </div>
+    <!-- ./col-lg-6 -->
+  </div>
+
+
+
+  <%- include('includes/footer'); %>
+
+    <!-- Page specific script -->
+    <script>
+      $(function () {
+        $("#example1").DataTable({
+          "responsive": true, "lengthChange": false, "autoWidth": false,
+          "buttons": ["excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+        });
+      });
+    </script>

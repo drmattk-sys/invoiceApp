@@ -1,0 +1,135 @@
+<%- include('includes/header'); %>
+
+  <div class="d-flex justify-content-center">
+
+    <div class="col-lg-10 bg-light p-5">
+      <% if(invoice){ %>
+        <div id="pageToPdf">
+          <div class="d-flex justify-content-end">
+            <h4 class="me-auto">Invoice </h4>
+
+            <h4>MT Example Company</h4>
+          </div>
+
+          <div class="mt-3">
+            <h5>Invoice Number:<span>
+                <%=invoice.InvoiceNo %>
+              </span></h5>
+            <h6>Due Date: <span>
+                <%=DueDate %>
+              </span></h6>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-5">
+              <h4>From:</h4>
+              <h5>MT Example Company</h5>
+              <h5>+26096414895</h5>
+            </div>
+            <div class="col-lg-6">
+              <h4>To:</h4>
+              <h5>
+                <%=invoice.CustomerName %>
+              </h5>
+              <h5>
+                <%=invoice.CustomerEmail %>
+              </h5>
+            </div>
+          </div>
+
+          <a href="/paid/<%=invoice._id %>" class="mt-2 p-2">Pay Online Here </a>
+
+          <div id="table" class="mt-5">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item Name</th>
+                  <th scope="col">Item Price</th>
+                  <th scope="col">Item Qty</th>
+                  <th scope="col">Item Amount</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <% var Total=0; %>
+                  <% for (var i=0; i < invoice.ItemName.length; i++ ) { %>
+
+                    <% Total=Total + (invoice.ItemPrice[i] * invoice.ItemQuantity[i]); %>
+
+
+
+                      <tr>
+                        <th scope="row">
+                          <%=i+1 %>
+                        </th>
+                        <td>
+                          <%=invoice.ItemName[i]; %>
+                        </td>
+                        <td>£<%=invoice.ItemPrice[i]; %>
+                        </td>
+                        <td>
+                          <%=invoice.ItemQuantity[i]; %>
+                        </td>
+                        <td>£ <%=(invoice.ItemPrice[i] * invoice.ItemQuantity[i]) %>
+                        </td>
+                      </tr>
+                      <% } %>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-end">
+
+            <div class="col-lg-5">
+              <table class="table">
+                <thead>
+
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="2">SubTotal:</td>
+                    <td>£<%=Total %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">Total:</td>
+                    <td>£<%=Total %>
+                    </td>
+                  </tr>
+                  <tr>
+
+                    <td colspan="2">Amount Due:</td>
+                    <td>£<%=Total %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+        <% } %>
+
+          <a href="javascript:generatePDF()" class="btn btn-warning"><span><i class="bi bi-printer-fill"></i></span></a>
+
+
+
+
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <%- include('includes/footer'); %>

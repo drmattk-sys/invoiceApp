@@ -1,0 +1,119 @@
+<%- include('includes/header'); %>
+
+  <div class="d-flex justify-content-center">
+
+   
+    <div class="col-lg-8" id="table">
+      <% if(message.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+           <%=message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+     <% } %> 
+
+     <form action="/add/invoice" method="post">
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="cName" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" id="cName"  placeholder="Your Customer Name" name="customerName" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label for="customerEmail" class="form-label"> Customer Email </label>
+            <input type="email" class="form-control" id="customerEmail" placeholder="Your Customer Email" name="customerEmail" required>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="mb-3">
+        <label for="date" class="form-label">Due Date</label>
+        <input type="date" class="form-control" id="date" placeholder="Date" name="dueDate" required>  
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="ItemName" class="form-label">Item Name</label>
+            <input type="text" class="form-control" id="ItemName" placeholder="Item Name" name="ItemName" required>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <label for="ItemPrice" class="form-label">Item Price</label>
+            <input type="number" class="form-control" id="ItemPrice" placeholder="Item Price" name="ItemPrice" required>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <label for="Quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="Quantity" placeholder="Quantity" name="Quantity" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="mb-2" >
+        <button id="addAnotherItem" class="btn btn-primary">Add Another Item</button>
+      </div> -->
+
+      <!-- start this one  -->
+
+      <div class="row">
+
+        <div class="col">
+          <div class="mb-3">
+            <label for="ItemName" class="form-label">Item Name</label>
+            <input type="text" class="form-control" id="ItemName" placeholder="Item Name" name="ItemName" required>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <label for="ItemPrice" class="form-label">Item Price</label>
+            <input type="number" class="form-control" id="ItemPrice" placeholder="Item Price" name="ItemPrice" required>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <label for="Quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="Quantity" placeholder="Quantity" name="Quantity" required>
+          </div>
+        </div>
+
+        <!-- <div class="col-sm-2">
+          <div class="mb-3">
+            <button class="btn btn-sm btn-sucesss mt-2">Remove</button>
+          </div>
+        </div> -->
+      </div>
+
+     
+
+
+      
+     
+
+     
+
+     
+
+
+      <button type="submit" class="btn btn-sm btn-warning">Create</button>
+
+     </form>
+
+    </div>
+  </div>
+
+
+
+
+  <%- include('includes/footer'); %>

@@ -1,0 +1,85 @@
+<%- include('includes/header'); %>
+
+
+  <div class="d-flex justify-content-center">
+    <div class="col-lg-10" id="table">
+      <% if(message.length> 0) { %>
+        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+          <%=message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+
+          <% if(invoice){ %>
+            <form action="/edit/<%=invoice._id %>" method="post">
+
+
+
+
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="cName" class="form-label">Customer Name</label>
+                    <input type="text" class="form-control" id="cName" value="<%=invoice.CustomerName %>"
+                      name="customerName">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="customerEmail" class="form-label"> Customer Email </label>
+                    <input type="email" class="form-control" id="customerEmail" value="<%=invoice.CustomerEmail %>"
+                      name="customerEmail">
+                  </div>
+                </div>
+              </div>
+
+
+
+
+              <% if(invoice.ItemName.length> 0){ %>
+
+                <% for (var i=0; i < invoice.ItemName.length; i++ ) { %>
+
+                  <div class="row">
+
+                    <div class="col">
+                      <div class="mb-3">
+                        <label for="ItemName" class="form-label">Item Name</label>
+                        <input type="text" class="form-control" id="ItemName" value="<%=invoice.ItemName[i]; %>"
+                          name="ItemName">
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="mb-3">
+                        <label for="ItemPrice" class="form-label">Item Price</label>
+                        <input type="number" class="form-control" id="ItemPrice" value="<%=invoice.ItemPrice[i]; %>"
+                          name="ItemPrice">
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="mb-3">
+                        <label for="Quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="Quantity" value="<%=invoice.ItemQuantity[i]; %>"
+                          name="Quantity">
+                      </div>
+                    </div>
+                  </div>
+
+                  <% } }%>
+
+
+
+
+                    <button type="submit" class="btn btn-sm btn-warning">Save</button>
+
+            </form>
+            <% } %>
+    </div>
+  </div>
+
+
+
+
+  <%- include('includes/footer'); %>
