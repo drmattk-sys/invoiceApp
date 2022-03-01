@@ -92,6 +92,7 @@ exports.printInvoice = async (req, res) => {
 			title: "Print the Invoice",
 			invoice: GetOneInvoice,
 			DueDate: date,
+			mode: req.flash("mode"),
 		});
 	} catch (error) {
 		console.log(error);
@@ -126,21 +127,52 @@ exports.sendInvoice = async (req, res) => {
 exports.paidInvoice = async (req, res) => {
 	try {
 		const InvoiceId = req.params.id;
-
 		const check = await Invoice.findOne({ _id: InvoiceId }).where({
-			StatusPaid: "Not Paid",
+			StatusPaid: "Paid",
 		});
 
 		if (check) {
-			res.redirect("/home");
+			req.flash("msg", "You have Already paid The Amount Due");
+			res.redirect(`/payment/${req.params.id}`);
 		} else {
 			await Invoice.findByIdAndUpdate(InvoiceId, {
-				StatusPaid: "Not Paid",
+				StatusPaid: "Paid",
 			});
-			res.redirect("/home");
+			req.flash("msg", "You have successfully paid The Amount Due");
+			res.redirect(`/payment/${req.params.id}`);
 		}
 	} catch (error) {
 		console.log(error);
-		res.redirect("/home");
+		req.flash("msg", "You have Not successfully paid The Amount Due");
+		res.redirect(`/payment/${req.params.id}`);
+	}
+};
+
+exports.getAllInvoice = async (req, res) => {
+	try {
+		const invoices = await Invoice.find({}).sort({ _id: -1 }).exec();
+		res.render("paymentPage", {
+			title: "Payment Page",
+			invoices: invoices,
+			message: req.flash("msg"),
+			moment: moment,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+exports.getPayment = async (req, res) => {
+	try {
+		const InvoiceId = req.params.id;
+		const GetOneInvoice = await Invoice.findOne({ _id: InvoiceId });
+		res.render("paymentProcess", {
+			title: "payment Process",
+			invoice: GetOneInvoice,
+			message: req.flash("msg"),
+			moment: moment,
+		});
+	} catch (error) {
+		console.log(error);
 	}
 };

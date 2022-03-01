@@ -26,6 +26,11 @@ router.post("/edit/:id", InvoiceController.updateInvoice);
 router.get("/print/:id", InvoiceController.printInvoice);
 
 router.get("/send/:id", InvoiceController.sendInvoice);
-router.get("paid/:id", InvoiceController.paidInvoice);
+
+router.get("/payment", InvoiceController.getAllInvoice);
+
+router.get("/payment/:id", InvoiceController.getPayment);
+
+router.get("/paid/:id", InvoiceController.paidInvoice);
 
 module.exports = router;
