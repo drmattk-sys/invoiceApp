@@ -5,7 +5,7 @@ const InvoiceSchema = new mongoose.Schema(
     
     InvoiceNo:{
       type: String,
-			unique: true,
+		  required:true,
     },
 		CustomerName: {
 			type: String,
@@ -15,10 +15,18 @@ const InvoiceSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+    CustomerAddress:{
+      type:String,
+      required: true,
+    },
 		ItemName: {
 			type: Array,
 			required: true,
 		},
+    itemCode:{
+      type:Array,
+      required:true,
+    },
 		ItemPrice: {
 			type: Array,
 			required: true,
@@ -27,7 +35,42 @@ const InvoiceSchema = new mongoose.Schema(
 			type: Array,
 			required: true,
 		},
-		StatusSend: {
+   itemTotal:{
+     type:Array,
+     required:true,
+   },
+
+   subTotal:{
+     type:Number,
+     required:true
+   },
+   taxRates:{
+     type:Number,
+   },
+   totalAmount:{
+     type:Number,
+   },
+   totalAftertax:{
+    type:Number,
+  },
+  amountPaid:{
+    type:Number,
+  },
+  amountDue:{
+    type:Number,
+  },
+   note:{
+   type:String
+   },
+    DueDate:{
+      type: Date,
+      required:true,
+    },
+    date:{
+      type:Date,
+      required:true,
+    },
+    StatusSend: {
 			type: String,
 			default: "Not Send",
 		},
@@ -35,10 +78,6 @@ const InvoiceSchema = new mongoose.Schema(
       type:String,
       default:"Not Paid",
     },
-    DueDate:{
-      type: Date,
-      required:true,
-    }
 	},
 	{
 		timestamps: true,

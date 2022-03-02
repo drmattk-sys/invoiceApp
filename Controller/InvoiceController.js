@@ -1,16 +1,28 @@
 const mongoose = require("mongoose");
 const Invoice = require("../Database/schema/Invoice");
-const { uuid } = require("uuidv4");
 const moment = require("moment");
 exports.addInvoice = async (req, res) => {
+
+  console.log(req.body);
 	try {
 		const NewInvoice = await new Invoice({
-			InvoiceNo: `#${uuid()}`,
+			InvoiceNo: req.body.invoiceNumber,
 			CustomerName: req.body.customerName,
 			CustomerEmail: req.body.customerEmail,
-			ItemName: req.body.ItemName,
-			ItemPrice: req.body.ItemPrice,
-			ItemQuantity: req.body.Quantity,
+      CustomerAddress:req.body.customerAddress,
+      itemCode:req.body.productCode,
+			ItemName: req.body.productName,
+			ItemPrice: req.body.price,
+			ItemQuantity: req.body.quantity,
+      itemTotal:req.body. total,
+      subTotal:req.body.subTotal,
+      taxRates:req.body.taxRate,
+      totalAmount:req.body.taxAmount,
+      totalAftertax:req.body.totalAftertax,
+      amountPaid:req.body.amountPaid,
+      amountDue:req.body.amountDue,
+      note:req.body.notes,
+      date:req.body.date,
 			DueDate: req.body.dueDate,
 		});
 		await NewInvoice.save();
@@ -55,11 +67,23 @@ exports.updateInvoice = async (req, res) => {
 	try {
 		const InvoiceId = req.params.id;
 		await Invoice.findByIdAndUpdate(InvoiceId, {
+			InvoiceNo: req.body.invoiceNumber,
 			CustomerName: req.body.customerName,
 			CustomerEmail: req.body.customerEmail,
-			ItemName: req.body.ItemName,
-			ItemPrice: req.body.ItemPrice,
-			ItemQuantity: req.body.Quantity,
+      CustomerAddress:req.body.customerAddress,
+      itemCode:req.body.productCode,
+			ItemName: req.body.productName,
+			ItemPrice: req.body.price,
+			ItemQuantity: req.body.quantity,
+      itemTotal:req.body. total,
+      subTotal:req.body.subTotal,
+      taxRates:req.body.taxRate,
+      totalAmount:req.body.taxAmount,
+      totalAftertax:req.body.totalAftertax,
+      amountPaid:req.body.amountPaid,
+      amountDue:req.body.amountDue,
+      note:req.body.notes,
+      date:req.body.date,
 			DueDate: req.body.dueDate,
 		});
 		req.flash("msg", "You have successfully Update an Invoice");
@@ -93,6 +117,7 @@ exports.printInvoice = async (req, res) => {
 			invoice: GetOneInvoice,
 			DueDate: date,
 			mode: req.flash("mode"),
+      moment: moment,
 		});
 	} catch (error) {
 		console.log(error);
@@ -150,7 +175,7 @@ exports.paidInvoice = async (req, res) => {
 
 exports.getAllInvoice = async (req, res) => {
 	try {
-		const invoices = await Invoice.find({}).sort({ _id: -1 }).exec();
+		const invoices = await Invoice.find({}).where({StatusSend: "Send",}).sort({ _id: -1 }).exec();
 		res.render("paymentPage", {
 			title: "Payment Page",
 			invoices: invoices,

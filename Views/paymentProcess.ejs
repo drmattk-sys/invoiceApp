@@ -1,16 +1,15 @@
 <%- include('includes/header'); %>
 
   <div class="d-flex justify-content-center">
-    <div class="col-lg-8 p-3 bg-light">
+    <div class="col-lg-10 p-3 bg-light">
+      MT general dealer <br>
+      P.O.Box 42424 <br>
+      Ndola, <br>
+      Zambia,
 
-      <h4 class="mt-2 mb-3">MT Example Company</h4>
-      <% var Total=0; %>
-        <% for (var i=0; i < invoice.ItemName.length; i++ ) { %>
-          <% Total=Total + (invoice.ItemPrice[i] * invoice.ItemQuantity[i]); %>
-            <% } %>
 
-              <div class="shadow-lg p-3 mb-5 bg-body rounded">
-                <h1>£ <%=Total %>
+              <div class="shadow-lg p-3 mb-5 bg-body rounded mt-2">
+                <h1>$ <%=invoice.amountDue %>
                 </h1>
 
                 <% if(invoice.StatusPaid=='Paid' ){ %>
@@ -47,29 +46,28 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <% var Total=0; %>
+                              <% if(invoice.ItemName.length> 0){ %>
+
                                 <% for (var i=0; i < invoice.ItemName.length; i++ ) { %>
-
-                                  <% Total=Total + (invoice.ItemPrice[i] * invoice.ItemQuantity[i]); %>
-
-
-
-                                    <tr>
-                                      <th scope="row">
-                                        <%=i+1 %>
-                                      </th>
-                                      <td>
-                                        <%=invoice.ItemName[i]; %>
-                                      </td>
-                                      <td>£<%=invoice.ItemPrice[i]; %>
-                                      </td>
-                                      <td>
-                                        <%=invoice.ItemQuantity[i]; %>
-                                      </td>
-                                      <td>£ <%=(invoice.ItemPrice[i] * invoice.ItemQuantity[i]) %>
-                                      </td>
-                                    </tr>
-                                    <% } %>
+                                  <tr>
+                                    <td>
+                                      <%=invoice.itemCode[i]; %>
+                                    </td>
+                                    <td>
+                                      <%=invoice.ItemName[i]; %>
+                                    </td>
+                                    <td>
+                                      <%=invoice.ItemQuantity[i]; %>
+                                    </td>
+                                    <td>
+                                      <%=invoice.ItemPrice[i]; %>
+                                    </td>
+                                    <td>
+                                      <%=invoice.itemTotal[i]; %>
+                                    </td>
+                                  </tr>
+            
+                                  <% } }%>
 
                             </tbody>
                           </table>
@@ -85,18 +83,18 @@
                               <tbody>
                                 <tr>
                                   <td colspan="2">SubTotal:</td>
-                                  <td>£<%=Total %>
+                                  <td> $<%=invoice.subTotal %>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td colspan="2">Total:</td>
-                                  <td>£<%=Total %>
+                                  <td>$<%=invoice.amountDue %>
                                   </td>
                                 </tr>
                                 <tr>
 
                                   <td colspan="2">Amount Due:</td>
-                                  <td>£<%=Total %>
+                                  <td>$ <%=invoice.amountDue %>
                                   </td>
                                 </tr>
                               </tbody>
@@ -158,7 +156,7 @@
 
 
                     <div class="row">
-                      <a href="/paid/<%=invoice._id %>" type="submit" class="btn btn-sm btn-warning"> pay £ <%=Total %>
+                      <a href="/paid/<%=invoice._id %>" type="submit" class="btn btn-sm btn-warning"> pay £ <%=invoice.amountDue %>
                           </a>
                     </div>
 

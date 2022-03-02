@@ -26,7 +26,7 @@
                   <tr>
                     <th>Customer</th>
                     <th>items(s)</th>
-                    <th>Total Amount </th>
+                    <th>Total Amount Due </th>
                     <th>Send</th>
                     <th>Paid</th>
                     <th>Action</th>
@@ -45,14 +45,8 @@
                           Items
                       </td>
                       <td>
-                        <% var Total=0; %>
-                          <% for (var i=0; i < data.ItemName.length; i++ ) { %>
-
-                            <% Total=Total + (data.ItemPrice[i] * data.ItemQuantity[i]); %>
-
-                              <% } %>
-
-                                <span>£ <%=Total %> </span>
+                        
+                    <span>$ <%=data.amountDue %> </span>
 
                       </td>
 

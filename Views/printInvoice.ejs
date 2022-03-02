@@ -1,126 +1,256 @@
-<%- include('includes/header'); %>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div class="d-flex justify-content-center">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Main css -->
+  <link rel="stylesheet" href="/css/style.css">
 
-    <div class="col-lg-10 bg-light p-5">
-      <% if(invoice){ %>
-        <div id="pageToPdf">
-          <div class="d-flex justify-content-end">
-            <h4 class="me-auto">Invoice </h4>
+  <!-- link invoice alone -->
 
-            <h4>MT Example Company</h4>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <script src="/js/invoice.js"></script>
+  <link rel="stylesheet" href="/css/invoice.css">
+  <!--Htmlpage to Pdf  -->
+  <script src="/js/jspdf.debug.js"></script>
+
+  <title>
+    <%=title %>
+  </title>
+
+</head>
+
+<body>
+
+  <div class="bg-yellow bg-gradient">
+
+    <div class="container">
+
+
+
+      <nav class="navbar  bg-yellow bg-gradient">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            
           </div>
-
-          <div class="mt-3">
-            <h5>Invoice Number:<span>
-                <%=invoice.InvoiceNo %>
-              </span></h5>
-            <h6>Due Date: <span>
-                <%=DueDate %>
-              </span></h6>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-5">
-              <h4>From:</h4>
-              <h5>MT Example Company</h5>
-              <h5>+26096414895</h5>
-            </div>
-            <div class="col-lg-6">
-              <h4>To:</h4>
-              <h5>
-                <%=invoice.CustomerName %>
-              </h5>
-              <h5>
-                <%=invoice.CustomerEmail %>
-              </h5>
-            </div>
-          </div>
-
       
-          <div id="table" class="mt-5">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Item Name</th>
-                  <th scope="col">Item Price</th>
-                  <th scope="col">Item Qty</th>
-                  <th scope="col">Item Amount</th>
-
-                </tr>
-              </thead>
-              <tbody>
-                <% var Total=0; %>
-                  <% for (var i=0; i < invoice.ItemName.length; i++ ) { %>
-
-                    <% Total=Total + (invoice.ItemPrice[i] * invoice.ItemQuantity[i]); %>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class=""><a href="/home">Invoice Page </a></li>
+              <li><a href="/payment">Payment Page</a></li>
+             
+            </ul>
+            
+           
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
 
 
+    
+  </div>
+  </div>
 
+
+
+
+  <div class="row text-center mt-2">
+    <h1 class="Changa text-decoration-underline">Invoice App</h1>
+    <p class="para-text">Sent the Invoice to the Customer, it is easy here.</p>
+  </div>
+
+
+
+
+
+
+  <div class="container" style="min-height:500px;">
+    <div class=''>
+    </div>
+
+    <div class="container content-invoice">
+
+
+
+      <% if(invoice){ %>
+        <form id="invoice-form" method="post" class="invoice-form" role="form" novalidate="">
+
+          <div class="load-animate animated fadeInUp">
+            <div class="row">
+              <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+
+              </div>
+            </div>
+            <input id="currency" type="hidden" value="$">
+
+            <div class="row">
+
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+                <img src="/image/logo.png" alt="" srcset="" width="200">
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="margin-top: 66px;">
+                MT general dealer <br>
+                P.O.Box 42424 <br>
+                Ndola, <br>
+                Zambia,
+              </div>
+
+
+            </div>
+            <hr>
+            <hr>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <h3>To,</h3>
+                <div class="form-group">
+                  <%=invoice.CustomerName %>
+                </div>
+                <div class="form-group">
+                  <%=invoice.CustomerEmail %>
+                </div>
+                <div class="form-group">
+                  <%=invoice.CustomerAddress %>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 pull-right">
+                <br>
+                <div class="form-group">
+                  <label for="invoiceNumber">Invoice Number:</label>
+                  <%=invoice.InvoiceNo %>"
+                </div>
+                <div class="form-group">
+                  <label for="date">Date:</label>
+                  <%=moment(invoice.date).format('LL'); %>
+                </div>
+                <div class="form-group">
+                  <label for="dueDate">Due Date</label>
+                  <%=moment(invoice.DueDate).format('LL'); %>
+                </div>
+
+
+              </div>
+            </div>
+            <!-- ./row -->
+
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <table class="table table-bordered table-hover" id="invoiceItem">
+                  <tr>
+
+                    <th width="15%">Item No</th>
+                    <th width="38%">Item Name</th>
+                    <th width="15%">Quantity</th>
+                    <th width="15%">Price</th>
+                    <th width="15%">Total</th>
+                  </tr>
+
+                  <% if(invoice.ItemName.length> 0){ %>
+
+                    <% for (var i=0; i < invoice.ItemName.length; i++ ) { %>
                       <tr>
-                        <th scope="row">
-                          <%=i+1 %>
-                        </th>
+                        <td>
+                          <%=invoice.itemCode[i]; %>
+                        </td>
                         <td>
                           <%=invoice.ItemName[i]; %>
-                        </td>
-                        <td>£<%=invoice.ItemPrice[i]; %>
                         </td>
                         <td>
                           <%=invoice.ItemQuantity[i]; %>
                         </td>
-                        <td>£ <%=(invoice.ItemPrice[i] * invoice.ItemQuantity[i]) %>
+                        <td>
+                          <%=invoice.ItemPrice[i]; %>
+                        </td>
+                        <td>
+                          <%=invoice.itemTotal[i]; %>
                         </td>
                       </tr>
-                      <% } %>
 
-              </tbody>
-            </table>
-          </div>
+                      <% } }%>
 
-          <div class="d-flex justify-content-end">
+                </table>
+              </div>
+            </div>
 
-            <div class="col-lg-5">
-              <table class="table">
-                <thead>
+            <div class="row">
 
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="2">SubTotal:</td>
-                    <td>£<%=Total %>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">Total:</td>
-                    <td>£<%=Total %>
-                    </td>
-                  </tr>
-                  <tr>
+              <div class="row pull-right" style="margin-right: 40px;">
 
-                    <td colspan="2">Amount Due:</td>
-                    <td>£<%=Total %>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <div class="form-group">
+                  <hr>
+                  <span><label>Subtotal: &nbsp;</label> $<%=invoice.subTotal %></span>
+                  <hr>
+
+                </div>
+                <div class="form-group">
+                  <span><label>Tax Rate: &nbsp;</label>
+                    <%=invoice.taxRates %>%
+                  </span>
+                  <hr>
+                </div>
+
+                <div class="form-group">
+                  <span><label>Tax Amount: &nbsp;</label> $ <%=invoice.totalAmount %> </span>
+                  <hr>
+                </div>
+
+                <div class="form-group">
+                  <span> <label>Total: &nbsp;</label>$ <%=invoice.totalAftertax %> </span>
+                  <hr>
+                </div>
+
+
+                <div class="form-group">
+                  <span><label>Amount Paid: &nbsp;</label> $ <%=invoice.amountPaid %> </span>
+                  <hr>
+                </div>
+
+
+                <div class="form-group">
+                  <span><label>Amount Due: &nbsp;</label> $ <%=invoice.amountDue %></span>
+                  <hr>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="">
+                <h3>Teams and Conditions</h3>
+                <div class="form-group">
+                  <%=invoice.note %>
+                </div>
+
+                
+
+              </div>
+              <a href="javascript:generatePDF()" class="btn btn-warning"><span><i
+                    class="bi bi-printer-fill"></i></span></a>
 
             </div>
 
+
+            <div class="clearfix"></div>
           </div>
-
-
-
-        </div>
+        </form>
         <% } %>
-
-          <a href="javascript:generatePDF()" class="btn btn-warning"><span><i class="bi bi-printer-fill"></i></span></a>
-
-
-
-
-
     </div>
   </div>
 
@@ -131,4 +261,35 @@
 
 
 
-  <%- include('includes/footer'); %>
+
+  <!-- jQuery -->
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <!-- main js  -->
+  <script src="/js/main.js"></script>
+  <!-- bootstrap js  -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <!-- DataTables  & Plugins -->
+  <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="/plugins/jszip/jszip.min.js"></script>
+  <script src="/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <script src="/js/moment.js"></script>
+
+
+
+
+
+</body>
+
+</html>
